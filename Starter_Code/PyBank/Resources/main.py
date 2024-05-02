@@ -1,17 +1,15 @@
-import os
+from pathlib import Path
 import csv
 
-BDC = os.path.join("PyBank\Resources\budget_data.csv")
-# Regardless of what i put in here its not picking up the code and i cannot for the life of me figure out why
-# I have tried so many difrent ways but it doesnt show up so im writeng the next list of code
-#print(BDC)
-
+BDC = Path(__file__).parent.joinpath("Lbudget_data.csv")
+print(BDC)
 BD = []
 
 with open(BDC) as csvfile:
     BDR=csv.DictReader(csvfile)
-for row in BDR: 
-    BD.append({"Month": row["Date"], "Amount": int(row["Profit/Losses"]),"change": 0})
+    
+    for row in BDR: 
+        BD.append({"month": row["Date"], "amount": int(row["Profit/Losses"]),"change": 0})
 
 total_months=len(BD)
 
@@ -40,12 +38,12 @@ Final_R=[("PBA"),
     (f'Greatest Decrease: {GD["month"]} ${GD["change"]}')]
 print(Final_R)
 
-TXTf=os.path.join("TXTf.txt")
+TXTf=Path(__file__).parent.joinpath("TXTf.txt")
 with open(TXTf, "w") as textfile:
     print("PBA",file=textfile)
     print("---------------------", file=textfile)
     print(f'Total Months: {total_months}', file=textfile)
-    print(f'Total: {Total_A}',file=textfile)
-    print(f'Average Change: {Average}',file=textfile)
-    print(f'Greatest Increase: {GI["month"]} ${GI["change"]}', file=textfile)
-    print(f'Greatest Decrease: {GD["month"]} ${GD["change"]}', file=textfile)
+    print(f'Total: ${Total_A}',file=textfile)
+    print(f'Average Change: ${Average}',file=textfile)
+    print(f'Greatest Increase: {GI["month"]} (${GI["change"]})', file=textfile)
+    print(f'Greatest Decrease: {GD["month"]} (${GD["change"]})', file=textfile)
